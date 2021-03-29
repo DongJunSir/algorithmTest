@@ -30,7 +30,7 @@ class BST {
                     currentNode = currentNode.left
                 } else {
                     currentNode = currentNode.right
-                } 
+                }
             }
             if (compare < 0) {
                 // 如果小于0，就添加到左子树
@@ -89,6 +89,25 @@ class BST {
             index++
         }
     }
+    inverse() {
+        if (this.root === null) return;
+        let stack = [this.root]
+        let index = 0
+        let currentNode
+        while (currentNode = stack[index++]) {
+
+            let temp = currentNode.left
+            currentNode.left = currentNode.right
+            currentNode.right = temp
+
+            if (currentNode.left) {
+                stack.push(currentNode.left)
+            }
+            if (currentNode.right) {
+                stack.push(currentNode.right)
+            }
+        }
+    }
 }
 
 let bst = new BST()
@@ -96,4 +115,5 @@ let arr = [10, 8, 6, 19, 15, 22, 20]
 arr.forEach(item => {
     bst.add(item)
 })
-bst.levelOrderTraversal()
+bst.inverse()
+console.log(bst.root)
