@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>throttle节流</title>
+    <style>
+        button {
+            width: 200px;
+            height: 50px;
+        }
+    </style>
+</head>
+<body>
+    <button id="btn">快速点击</button>
+    <script>
+        let btn = document.getElementById('btn');
+        // 1版本
+        // function throttle(func, wait) {
+        //     let previous = 0; // 上一次的默认值
+        //     return function() {
+        //         let now = Date.now()
+        //         if (now - previous > wait) {
+        //             func.apply(this, arguments);
+        //             previous = now;
+        //         }
+        //     }
+        // }
+        // 2版本 trailing = true
+        // function throttle(func, wait, options) {
+        //     let args, context, previous = 0, timeout;
+        //     let later = function() {
+        //         previous = Date.now()
+        //         func.apply(context, args)
+        //     }
+        //     return function() {
+        //         args = arguments;
+        //         context = this;
+        //         let now = Date.now() // 现在的时间
+        //         let remaining = wait - (now - previous)
+        //         if (remaining <= 0) {
+        //             if (timeout) {
+        //                 clearTimeout(timeout)
+        //                 timeout = null;
+        //             }
+        //             func.apply(context, args)
+        //             previous = now
+        //         } else if (!timeout && options.trailing !== false) {
+        //             timeout = setTimeout(later, remaining)
+        //         }
+        //     }
+        // }
+        // 版本3 leading = true
+        function throttle(func, wait, options) {
+            let args, context, previous = 0;
+            let later = function() {
+                previous = options.leading === false ? 0 : Date.now()
+                func.apply(context, args)
+            }
+            return function() {
+                args = arguments;
+                context = this;
+                let now = Date.now()
+                if (!previous && options.leading === true) previous = now
+                let remaining = wait - (now - previous)
+                if (remaining <= 0) {
+                    if (timeout) {
+                        clearTimeout(timeout)
+                        timeout = null
+                    }
+                    func.apply(context, args)
+                    previous = now
+                } else if (!timeout && options.trailing !== false){
+                    timeout = setTimeout(later, remaining)
+                }
+            }
+        }
+        function logger() {
+            console.log('logger')
+        }
+        btn.addEventListener('click', throttle(logger, 1000, {trailing: true}))
+    </script>
+</body>
+</html>

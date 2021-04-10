@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>debounce防抖</title>
+    <style>
+        button {
+            width: 200px;
+            height: 50px;
+        }
+    </style>
+</head>
+<body>
+    <button id="btn">快速点击</button>
+    <script>
+        // 防抖 记录每次点击的时间戳
+        let btn = document.getElementById('btn');
+        function logger() {
+            console.log('logger')
+        } 
+        // 版本1 
+        // function debounce(func, wait) {
+        //     let timeout;
+        //     return function() {
+        //         clearTimeout(timeout)
+        //         timeout = setTimeout(() => {
+        //             func.apply(this, arguments)
+        //         }, wait)
+        //     }
+        // }
+        function debounce(func, wait, immediate) {
+            let timeout;
+            return function() {
+                clearTimeout(timeout)
+                if (immediate) {
+                    let callNow = !timeout;
+                    if (callNow) func.apply(this, arguments)
+                }
+                timeout = setTimeout(() => {
+                    func.apply(this, arguments)
+                    timeout = null;
+                }, wait)
+            }
+        }
+        btn.addEventListener('click', debounce(logger, 1000, true))
+    </script>
+</body>
+</html>
