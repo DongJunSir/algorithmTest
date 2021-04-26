@@ -1,12 +1,18 @@
 // let DonePlugin = require('./plugins/DonePlugin')
-let AssetsPlugin = require('./plugins/AssetsPlugin')
+// let AssetsPlugin = require('./plugins/AssetsPlugin')
 // let ZipPlugin = require('./plugins/ZipPlugin')
+let HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
     mode:'development',
-    entry: './index.js',
+    devtool: false,
+    entry: './src/index.js',
+    externals: {
+        'jquery': '$'
+    },
     plugins: [
-        // new DonePlugin(),
-        new AssetsPlugin()
-        // new ZipPlugin()
+        new HtmlWebpackPlugin({
+            template: './src/index.html',
+            filename: 'index.html'
+        })
     ]
 }

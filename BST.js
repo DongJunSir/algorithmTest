@@ -108,6 +108,18 @@ class BST {
             }
         }
     }
+    inverse2() {
+        const inverseFunc = (node) => {
+            if (node === null) return;
+            if (node.left) inverseFunc(node.left)
+            if (node.right) inverseFunc(node.right)
+            let left  = node.left
+            let right = node.right
+            node.left = right
+            node.right = left
+        }
+        inverseFunc(this.root)
+    }
 }
 
 let bst = new BST()
@@ -115,5 +127,5 @@ let arr = [10, 8, 6, 19, 15, 22, 20]
 arr.forEach(item => {
     bst.add(item)
 })
-bst.inverse()
+bst.inverse2()
 console.log(bst.root)
