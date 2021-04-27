@@ -95,7 +95,6 @@ class BST {
         let index = 0
         let currentNode
         while (currentNode = stack[index++]) {
-
             let temp = currentNode.left
             currentNode.left = currentNode.right
             currentNode.right = temp
