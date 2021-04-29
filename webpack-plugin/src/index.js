@@ -1,2 +1,2 @@
-import $ from 'jquery'
+let $ = require('jquery')
 console.log($)
