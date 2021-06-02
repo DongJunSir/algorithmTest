@@ -20,7 +20,6 @@ class AutoExternalPlugin {
     }
 }
 module.exports = AutoExternalPlugin
-
 /**
  * 在本插件中我们做什么，分成两步
  * 1.判断一下，查找一下本项目是否用到了某些模块
